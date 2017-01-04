@@ -468,7 +468,9 @@ loop_012c
         movlb           0x00        ; 0131: 0020
         movwf           TMR0        ; 0132: 0095
         movlp           0x28        ; 0133: 31A8
-        call            sub_28a2    ; 0134: 20A2
+        call            
+
+		; 0134: 20A2
 
         movlp           0x00        ; 0135: 3180
         goto            loop_013a   ; 0136: 293A
@@ -551,7 +553,7 @@ loop_0168
 ; jump here from: 0163
 ; jump here from: 0165
         movlb           0x01        ; 0168: 0021
-        movf            mem_c8, W   ; 0169: 0848
+        movf            radio_enabled, W   ; 0169: 0848
         btfsc           STATUS, Z   ; 016A: 1903
         goto            loop_017f   ; 016B: 297F
 
@@ -567,7 +569,7 @@ loop_0168
         incf            mem_radio_status, f  ; 0174: 0AC5
         clrf            mem_141     ; 0175: 01C1
         movlp           0x10        ; 0176: 3190
-        call            sub_1000    ; 0177: 2000
+        call            enable_timer    ; 0177: 2000
 
         movlp           0x00        ; 0178: 3180
         movf            mem_143, f  ; 0179: 08C3
@@ -758,18 +760,18 @@ loop_01f2
 loop_01f9
 ; jump here from: 01F5
         movlp           0x20        ; 01F9: 31A0
-        call            radio_get_data    ; 01FA: 2014
+        call            radio_get_byte    ; 01FA: 2014
 
         movlp           0x00        ; 01FB: 3180
         movlb           0x03        ; 01FC: 0023
-        movwf           serial_outputa     ; 01FD: 00AA
+        movwf           radio_data_a     ; 01FD: 00AA
         movlb           0x01        ; 01FE: 0021
         movf            mem_b9, f   ; 01FF: 08B9
         btfss           STATUS, Z   ; 0200: 1D03
         goto            loop_0208   ; 0201: 2A08
 
         movlb           0x03        ; 0202: 0023
-        movf            serial_outputa, W  ; 0203: 082A
+        movf            radio_data_a, W  ; 0203: 082A
         movlb           0x02        ; 0204: 0022
         xorwf           mem_168, W  ; 0205: 0668
         btfss           STATUS, Z   ; 0206: 1D03
@@ -778,18 +780,18 @@ loop_01f9
 loop_0208
 ; jump here from: 0201
         movlp           0x20        ; 0208: 31A0
-        call            radio_get_data    ; 0209: 2014
+        call            radio_get_byte    ; 0209: 2014
 
         movlp           0x00        ; 020A: 3180
         movlb           0x03        ; 020B: 0023
-        movwf           serial_outputb     ; 020C: 00AB
+        movwf           radio_data_b     ; 020C: 00AB
         movlb           0x01        ; 020D: 0021
         movf            mem_b9, f   ; 020E: 08B9
         btfss           STATUS, Z   ; 020F: 1D03
         goto            loop_0217   ; 0210: 2A17
 
         movlb           0x03        ; 0211: 0023
-        movf            serial_outputb, W  ; 0212: 082B
+        movf            radio_data_b, W  ; 0212: 082B
         movlb           0x01        ; 0213: 0021
         xorwf           mem_e1, W   ; 0214: 0661
         btfss           STATUS, Z   ; 0215: 1D03
@@ -798,18 +800,18 @@ loop_0208
 loop_0217
 ; jump here from: 0210
         movlp           0x20        ; 0217: 31A0
-        call            radio_get_data    ; 0218: 2014
+        call            radio_get_byte    ; 0218: 2014
 
         movlp           0x00        ; 0219: 3180
         movlb           0x03        ; 021A: 0023
-        movwf           serial_outputc     ; 021B: 00AC
+        movwf           radio_data_c     ; 021B: 00AC
         movlb           0x01        ; 021C: 0021
         movf            mem_b9, f   ; 021D: 08B9
         btfss           STATUS, Z   ; 021E: 1D03
         goto            loop_0226   ; 021F: 2A26
 
         movlb           0x03        ; 0220: 0023
-        movf            serial_outputc, W  ; 0221: 082C
+        movf            radio_data_c, W  ; 0221: 082C
         movlb           0x01        ; 0222: 0021
         xorwf           mem_e2, W   ; 0223: 0662
         btfss           STATUS, Z   ; 0224: 1D03
@@ -818,85 +820,85 @@ loop_0217
 loop_0226
 ; jump here from: 021F
         movlp           0x20        ; 0226: 31A0
-        call            radio_get_data    ; 0227: 2014
+        call            radio_get_byte    ; 0227: 2014
 
         movlp           0x00        ; 0228: 3180
         movlb           0x03        ; 0229: 0023
-        movwf           serial_outputd     ; 022A: 00AD
+        movwf           radio_data_d     ; 022A: 00AD
         movlp           0x20        ; 022B: 31A0
-        call            radio_get_data    ; 022C: 2014
+        call            radio_get_byte    ; 022C: 2014
 
         movlp           0x00        ; 022D: 3180
         movlb           0x03        ; 022E: 0023
-        movwf           serial_outpute     ; 022F: 00AE
+        movwf           radio_data_e     ; 022F: 00AE
         movlp           0x20        ; 0230: 31A0
-        call            radio_get_data    ; 0231: 2014
+        call            radio_get_byte    ; 0231: 2014
 
         movlp           0x00        ; 0232: 3180
         movlb           0x03        ; 0233: 0023
-        movwf           serial_outputf     ; 0234: 00AF
+        movwf           radio_data_f     ; 0234: 00AF
         movlp           0x20        ; 0235: 31A0
-        call            radio_get_data    ; 0236: 2014
+        call            radio_get_byte    ; 0236: 2014
 
         movlp           0x00        ; 0237: 3180
         movlb           0x03        ; 0238: 0023
-        movwf           serial_output10     ; 0239: 00B0
+        movwf           radio_data_10     ; 0239: 00B0
         movlp           0x20        ; 023A: 31A0
-        call            radio_get_data    ; 023B: 2014
+        call            radio_get_byte    ; 023B: 2014
 
         movlp           0x00        ; 023C: 3180
         movlb           0x03        ; 023D: 0023
-        movwf           serial_output11     ; 023E: 00B1
-        movf            serial_outputa, W  ; 023F: 082A
+        movwf           radio_data_11     ; 023E: 00B1
+        movf            radio_data_a, W  ; 023F: 082A
         movlb           0x00        ; 0240: 0020
         movwf           mem_34      ; 0241: 00B4
         movlb           0x03        ; 0242: 0023
-        movf            serial_outputb, W  ; 0243: 082B
+        movf            radio_data_b, W  ; 0243: 082B
         movlb           0x00        ; 0244: 0020
         addwf           mem_34, f   ; 0245: 07B4
         movlb           0x03        ; 0246: 0023
-        movf            serial_outputc, W  ; 0247: 082C
+        movf            radio_data_c, W  ; 0247: 082C
         movlb           0x00        ; 0248: 0020
         addwf           mem_34, f   ; 0249: 07B4
         movlb           0x03        ; 024A: 0023
-        movf            serial_outputd, W  ; 024B: 082D
+        movf            radio_data_d, W  ; 024B: 082D
         movlb           0x00        ; 024C: 0020
         addwf           mem_34, f   ; 024D: 07B4
         movlb           0x03        ; 024E: 0023
-        movf            serial_outpute, W  ; 024F: 082E
+        movf            radio_data_e, W  ; 024F: 082E
         movlb           0x00        ; 0250: 0020
         addwf           mem_34, f   ; 0251: 07B4
         movlb           0x03        ; 0252: 0023
-        movf            serial_outputf, W  ; 0253: 082F
+        movf            radio_data_f, W  ; 0253: 082F
         movlb           0x00        ; 0254: 0020
         addwf           mem_34, f   ; 0255: 07B4
         movlb           0x03        ; 0256: 0023
-        movf            serial_output10, W  ; 0257: 0830
+        movf            radio_data_10, W  ; 0257: 0830
         movlb           0x00        ; 0258: 0020
         addwf           mem_34, f   ; 0259: 07B4
         movlb           0x03        ; 025A: 0023
-        movf            serial_output11, W  ; 025B: 0831
+        movf            radio_data_11, W  ; 025B: 0831
         movlb           0x00        ; 025C: 0020
         xorwf           mem_34, W   ; 025D: 0634
         btfss           STATUS, Z   ; 025E: 1D03
         goto            loop_02cf   ; 025F: 2ACF
 
         movlb           0x03        ; 0260: 0023
-        movf            serial_outputa, W  ; 0261: 082A
+        movf            radio_data_a, W  ; 0261: 082A
         movlb           0x02        ; 0262: 0022
         xorwf           mem_168, W  ; 0263: 0668
         btfss           STATUS, Z   ; 0264: 1D03
         goto            loop_0272   ; 0265: 2A72
 
         movlb           0x03        ; 0266: 0023
-        movf            serial_outputb, W  ; 0267: 082B
+        movf            radio_data_b, W  ; 0267: 082B
         movlb           0x01        ; 0268: 0021
         xorwf           mem_e1, W   ; 0269: 0661
         btfss           STATUS, Z   ; 026A: 1D03
         goto            loop_0272   ; 026B: 2A72
 
         movlb           0x03        ; 026C: 0023
-        movf            serial_outputc, W  ; 026D: 082C
+        movf            radio_data_c, W  ; 026D: 082C
         movlb           0x01        ; 026E: 0021
         xorwf           mem_e2, W   ; 026F: 0662
         btfsc           STATUS, Z   ; 0270: 1903
@@ -906,21 +908,21 @@ loop_0272
 ; jump here from: 0265
 ; jump here from: 026B
         movlb           0x03        ; 0272: 0023
-        btfss           serial_outputd, 7  ; 0273: 1FAD
+        btfss           radio_data_d, 7  ; 0273: 1FAD
         goto            loop_02cf   ; 0274: 2ACF
 
 loop_0275
 ; jump here from: 0271
         movlb           0x03        ; 0275: 0023
-        movf            serial_outpute, W  ; 0276: 082E
+        movf            radio_data_e, W  ; 0276: 082E
         movlb           0x02        ; 0277: 0022
         movwf           mem_139     ; 0278: 00B9
         movlb           0x03        ; 0279: 0023
-        movf            serial_outputf, W  ; 027A: 082F
+        movf            radio_data_f, W  ; 027A: 082F
         movlb           0x02        ; 027B: 0022
         movwf           mem_138     ; 027C: 00B8
         movlb           0x03        ; 027D: 0023
-        movf            serial_output10, W  ; 027E: 0830
+        movf            radio_data_10, W  ; 027E: 0830
         movlb           0x02        ; 027F: 0022
         movwf           mem_137     ; 0280: 00B7
 		
@@ -931,8 +933,8 @@ loop_0275
         movlw           0x3c        ; 0284: 303C
         movwf           mem_144     ; 0285: 00C4
         movlb           0x01        ; 0286: 0021
-        clrf            mem_c8      ; 0287: 01C8
-        incf            mem_c8, f   ; 0288: 0AC8
+        clrf            radio_enabled      ; 0287: 01C8
+        incf            radio_enabled, f   ; 0288: 0AC8
         clrf            mem_c7      ; 0289: 01C7
         movlb           0x02        ; 028A: 0022
         clrf            mem_13f     ; 028B: 01BF
@@ -1013,7 +1015,7 @@ label_02bd
 ; jump here from: 02AF
 ; jump here from: 02B4
         movlb           0x03        ; 02BD: 0023
-        movf            serial_outputd, W  ; 02BE: 082D
+        movf            radio_data_d, W  ; 02BE: 082D
         andlw           0x30        ; 02BF: 3930
         movwf           mem_1fc     ; 02C0: 00FC
         clrf            mem_1fd     ; 02C1: 01FD
@@ -2364,7 +2366,7 @@ sub_0644
 
         movlp           0x03        ; 064E: 3183
         movlb           0x01        ; 064F: 0021
-        clrf            mem_c8      ; 0650: 01C8
+        clrf            radio_enabled      ; 0650: 01C8
         clrf            mem_c7      ; 0651: 01C7
         incf            mem_c7, f   ; 0652: 0AC7
         movlb           0x02        ; 0653: 0022
@@ -3576,7 +3578,7 @@ loop_0969
         movlb           0x02        ; 0977: 0022
         clrf            mem_16c     ; 0978: 01EC
         movlb           0x01        ; 0979: 0021
-        clrf            mem_c8      ; 097A: 01C8
+        clrf            radio_enabled      ; 097A: 01C8
         movlb           0x02        ; 097B: 0022
         clrf            mem_13f     ; 097C: 01BF
         movlb           0x01        ; 097D: 0021
@@ -3745,7 +3747,7 @@ loop_09e6
         btfss           STATUS, Z   ; 09E8: 1D03
         decf            mem_12c, f  ; 09E9: 03AC
         movlb           0x01        ; 09EA: 0021
-        movf            mem_c8, W   ; 09EB: 0848
+        movf            radio_enabled, W   ; 09EB: 0848
         btfsc           STATUS, Z   ; 09EC: 1903
         goto            loop_09fa   ; 09ED: 29FA
 
@@ -3952,7 +3954,7 @@ loop_0a6a
         movlw           0xfa        ; 0A6F: 30FA
         addwf           mem_165, f  ; 0A70: 07E5
         movlb           0x01        ; 0A71: 0021
-        decfsz          mem_c8, W   ; 0A72: 0B48
+        decfsz          radio_enabled, W   ; 0A72: 0B48
         goto            loop_0a88   ; 0A73: 2A88
 
         movlp           0x30        ; 0A74: 31B0
@@ -4237,7 +4239,7 @@ loop_0b34
         clrf            mem_1c9     ; 0B40: 01C9
         incf            mem_1c9, f  ; 0B41: 0AC9
         movlb           0x01        ; 0B42: 0021
-        movf            mem_c8, f   ; 0B43: 08C8
+        movf            radio_enabled, f   ; 0B43: 08C8
         btfss           STATUS, Z   ; 0B44: 1D03
         goto            loop_0b59   ; 0B45: 2B59
 
@@ -6562,11 +6564,11 @@ init_serial
 Bank1000_Vector org 0x1000
 
 ;------------------------------------------------------------
-; Subroutine: sub_1000
+; Subroutine: enable_timer
 ;
 ; called from: 0177
 
-sub_1000
+enable_timer
         bcf             INTCON, T0IF; 1000: 110B
         bsf             INTCON, T0IE; 1001: 168B
         return                      ; 1002: 0008
@@ -13477,7 +13479,7 @@ enable_tx_serial
         return                      ; 2013: 0008
 
 ;------------------------------------------------------------
-; Subroutine: radio_get_data
+; Subroutine: radio_get_byte
 ;
 ; called from: 01FA
 ; called from: 0209
@@ -13488,7 +13490,7 @@ enable_tx_serial
 ; called from: 0236
 ; called from: 023B
 
-radio_get_data
+radio_get_byte
         clrf            mem_1f2     ; 2014: 01F2
         movlw           0x08        ; 2015: 3008
         movwf           mem_1f1     ; 2016: 00F1
@@ -13522,7 +13524,7 @@ loop_2027
 
 label_2028
 ; jump here from: 2026
-        call            sub_20f0    ; 2028: 20F0
+        call            sleep__    ; 2028: 20F0
 
         movlp           0x20        ; 2029: 31A0
         call            sleep_10    ; 202A: 203E
@@ -14007,11 +14009,11 @@ loop_20ee
         return                      ; 20EF: 0008
 
 ;------------------------------------------------------------
-; Subroutine: sub_20f0
+; Subroutine: sleep__
 ;
 ; called from: 2028
 
-sub_20f0
+sleep__
         clrf            mem_70      ; 20F0: 01F0
 
 label_20f1
@@ -16971,7 +16973,7 @@ sub_281f
         btfsc           STATUS, C   ; 2833: 1803
         return                      ; 2834: 0008
         movlb           0x03        ; 2835: 0023
-        btfss           serial_outputd, 6  ; 2836: 1F2D
+        btfss           radio_data_d, 6  ; 2836: 1F2D
         goto            loop_283b   ; 2837: 283B
 
         clrf            mem_1d1     ; 2838: 01D1
@@ -16989,21 +16991,21 @@ label_283c
         goto            loop_2851   ; 283E: 2851
 
         movlb           0x03        ; 283F: 0023
-        btfss           serial_outputd, 7  ; 2840: 1FAD
+        btfss           radio_data_d, 7  ; 2840: 1FAD
         goto            loop_2851   ; 2841: 2851
 
         movlb           0x01        ; 2842: 0021
         clrf            mem_b9      ; 2843: 01B9
         movlb           0x03        ; 2844: 0023
-        movf            serial_outputa, W  ; 2845: 082A
+        movf            radio_data_a, W  ; 2845: 082A
         movlb           0x02        ; 2846: 0022
         movwf           mem_168     ; 2847: 00E8
         movlb           0x03        ; 2848: 0023
-        movf            serial_outputb, W  ; 2849: 082B
+        movf            radio_data_b, W  ; 2849: 082B
         movlb           0x01        ; 284A: 0021
         movwf           mem_e1      ; 284B: 00E1
         movlb           0x03        ; 284C: 0023
-        movf            serial_outputc, W  ; 284D: 082C
+        movf            radio_data_c, W  ; 284D: 082C
         movlb           0x01        ; 284E: 0021
         movwf           mem_e2      ; 284F: 00E2
         call            sub_2880    ; 2850: 2080
@@ -17024,15 +17026,15 @@ loop_2851
 
         movlp           0x28        ; 285B: 31A8
         movlb           0x03        ; 285C: 0023
-        movf            serial_outpute, W  ; 285D: 082E
+        movf            radio_data_e, W  ; 285D: 082E
         movlb           0x00        ; 285E: 0020
         movwf           mem_21      ; 285F: 00A1
         movlb           0x03        ; 2860: 0023
-        movf            serial_outputf, W  ; 2861: 082F
+        movf            radio_data_f, W  ; 2861: 082F
         movlb           0x00        ; 2862: 0020
         movwf           mem_20      ; 2863: 00A0
         movlb           0x03        ; 2864: 0023
-        movf            serial_output10, W  ; 2865: 0830
+        movf            radio_data_10, W  ; 2865: 0830
         movlb           0x01        ; 2866: 0021
         movwf           mem_ba      ; 2867: 00BA
         movlp           0x1c        ; 2868: 319C
@@ -17123,7 +17125,7 @@ sub_289d
 
 sub_28a2
         movlb           0x01        ; 28A2: 0021
-        decfsz          mem_c8, W   ; 28A3: 0B48
+        decfsz          radio_enabled, W   ; 28A3: 0B48
         return                      ; 28A4: 0008
         movlb           0x02        ; 28A5: 0022
         decfsz          mem_radio_status, W  ; 28A6: 0B45
@@ -18724,7 +18726,7 @@ loop_2c55
 
 label_2c56
 ; jump here from: 2C54
-        movf            mem_c8, W   ; 2C56: 0848
+        movf            radio_enabled, W   ; 2C56: 0848
         btfsc           STATUS, Z   ; 2C57: 1903
         goto            loop_2c60   ; 2C58: 2C60
 
@@ -18918,7 +18920,7 @@ loop_2cb8
 label_2cb9
 ; jump here from: 2CB7
         movlb           0x01        ; 2CB9: 0021
-        movf            mem_c8, W   ; 2CBA: 0848
+        movf            radio_enabled, W   ; 2CBA: 0848
         btfsc           STATUS, Z   ; 2CBB: 1903
         goto            loop_2cc1   ; 2CBC: 2CC1
 
@@ -23903,14 +23905,14 @@ serial_output6    equ   0x1A6
 serial_output7    equ   0x1A7
 serial_output8    equ   0x1A8
 serial_output9    equ   0x1A9
-serial_outputa    equ   0x1AA
-serial_outputb    equ   0x1AB
-serial_outputc    equ   0x1AC
-serial_outputd    equ   0x1AD
-serial_outpute    equ   0x1AE
-serial_outputf    equ   0x1AF
-serial_output10    equ   0x1B0
-serial_output11    equ   0x1B1
+radio_data_a    equ   0x1AA
+radio_data_b    equ   0x1AB
+radio_data_c    equ   0x1AC
+radio_data_d    equ   0x1AD
+radio_data_e    equ   0x1AE
+radio_data_f    equ   0x1AF
+radio_data_10    equ   0x1B0
+radio_data_11    equ   0x1B1
 mem_1b4    equ   0x1B4
 mem_1b6    equ   0x1B6
 serial_buffer0    equ   0x1BA
@@ -24078,7 +24080,7 @@ mem_c4    equ   0xC4
 mem_c5    equ   0xC5
 mem_c6    equ   0xC6
 mem_c7    equ   0xC7
-mem_c8    equ   0xC8
+radio_enabled    equ   0xC8
 mem_c9    equ   0xC9
 mem_ca    equ   0xCA
 mem_cb    equ   0xCB
